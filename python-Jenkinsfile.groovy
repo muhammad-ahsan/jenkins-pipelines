@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     sh 'python3 --version'
-                    sh 'python3 -m venv .'
+                    sh 'python3 -m venv venv'
                     sh 'ls -all'
                     sh 'source venv/bin/activate'
                     sh 'whereis python3'
