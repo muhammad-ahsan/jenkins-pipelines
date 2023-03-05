@@ -38,8 +38,10 @@ pipeline {
                 
                 // Warnings Next Generation Plugin
                 recordIssues(
-                        tool: pyLint(pattern: 'pylint.log'),
                         unstableTotalHigh: 100,
+                        enableForFailure: true, 
+                        aggregatingResults=true,
+                        tool: [pyLint(pattern: 'pylint.log'),reportEncoding: 'UTF-8']
                 )
                 echo "Generating Report - Linting Success"
             }
