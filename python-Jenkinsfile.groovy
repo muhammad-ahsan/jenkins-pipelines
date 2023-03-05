@@ -39,7 +39,7 @@ pipeline {
                 // Warnings Next Generation Plugin
                 recordIssues(
                         unstableTotalHigh: 100,
-                        enableForFailure: true, 
+                        enabledForFailure: true, 
                         aggregatingResults: true,
                         tool: pyLint(pattern: 'pylint.log')
                 )
