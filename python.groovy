@@ -32,12 +32,23 @@ pipeline {
         stage('Code Linting'){
            steps {
                 sh 'python3 -m pylint --output-format=parseable --fail-under=0 $(git ls-files "*.py") --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" | tee pylint.log || echo "pylint exited with $?"'
-                echo "linting Success, Generating Report"
-                // recordIssues enabledForFailure: true, aggregatingResults: true, tool: pyLint(pattern: 'pylint.log')
-                recordIssues healthy: 1, minimumSeverity: 'NORMAL', unhealthy: 9, qualityGates: [[threshold: 1, type: 'TOTAL_NORMAL', unstable: true], [threshold: 1, type: 'TOTAL_HIGH', unstable: false], [threshold: 1, type: 'TOTAL_ERROR', unstable: false]], tools: [pyLint(pattern: 'pylint.log')]
+                tool: pyLint(pattern: 'pylint.log')
+                echo "Generating Report - Linting Success"
+                
+                stash name: 'pylint.log'
             }
         }
-        
+        stage('Analyze Linting Results') {
+            steps {
+                unstash 'pylint.log'
+                recordIssues healthy: 1, minimumSeverity: 'NORMAL', unhealthy: 9, qualityGates: [[threshold: 1, type: 'TOTAL_NORMAL', unstable: true], [threshold: 1, type: 'TOTAL_HIGH', unstable: false], [threshold: 1, type: 'TOTAL_ERROR', unstable: false]], tools: [pyLint(pattern: 'pylint.log')]
+            }
+            post {
+                failure {
+                    error('Abort because of pylint warnings')
+                }
+            }
+        }
         
         stage('Code Testing'){
            steps {
