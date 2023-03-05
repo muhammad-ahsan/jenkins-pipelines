@@ -66,5 +66,10 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            echo 'Post stages pipeline cleanup'
+        }
+   }
 }
 
