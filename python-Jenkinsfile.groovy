@@ -35,6 +35,8 @@ pipeline {
            steps {
                 sh 'whereis python3'
                 sh 'python3 -m pylint --output-format=parseable $(git ls-files "*.py") --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" || cat pylint.log || echo "pylint exited with status = $?"'
+                
+                // Warnings Next Generation Plugin
                 recordIssues(
                         tool: pyLint(pattern: 'pylint.log'),
                         unstableTotalHigh: 100,
