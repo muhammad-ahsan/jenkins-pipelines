@@ -21,9 +21,9 @@ pipeline {
             steps {
                 script {
                     sh 'python3 --version'
-                    sh 'python3 -m venv venv'
-                    sh 'ls -all'
-                    sh 'source venv/bin/activate'
+                    sh 'python3 -m pip install virtualenv'
+                    sh 'python3 -m virtualenv -p ˙which pyhton3.9˙ .venv'
+                    sh 'source .venv/bin/activate'
                     sh 'whereis python3'
                     sh 'python3 -m pip install --upgrade pip'
                     sh 'python3 -m pip install --user pylint pytest pytest-cov'
@@ -33,6 +33,7 @@ pipeline {
         }
         stage('Code Linting'){
            steps {
+                sh 'whereis python3'
                 sh 'python3 -m pylint --output-format=parseable $(git ls-files "*.py") --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" || cat pylint.log || echo "pylint exited with status = $?"'
                 recordIssues(
                         tool: pyLint(pattern: 'pylint.log'),
