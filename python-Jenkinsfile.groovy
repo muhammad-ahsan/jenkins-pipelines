@@ -7,10 +7,8 @@ pipeline {
                 echo 'CI/CD Pipeline is triggered'
                 // Check OS details of Jenkins Server
                 sh 'uname -mrs'
-                // Work-around for docker command not found
-                sh 'export PATH=$PATH:/usr/local/bin/docker'
                 // Check docker integration with Jenkins
-                sh 'docker --version'
+                sh '/usr/local/bin/docker --version'
             }
         }
         stage("Checkout Code") {
