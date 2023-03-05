@@ -35,10 +35,10 @@ pipeline {
                 tool: pyLint(pattern: 'pylint.log')
                 echo "Generating Report - Linting Success"
                 
-                stash name: 'pylint.log'
+                stash includes: 'pylint.log',name: 'pylint.log'
             }
         }
-        stage('Analyze Linting Results') {
+        stage('Analyze test results') {
             steps {
                 unstash 'pylint.log'
                 recordIssues healthy: 1, minimumSeverity: 'NORMAL', unhealthy: 9, qualityGates: [[threshold: 1, type: 'TOTAL_NORMAL', unstable: true], [threshold: 1, type: 'TOTAL_HIGH', unstable: false], [threshold: 1, type: 'TOTAL_ERROR', unstable: false]], tools: [pyLint(pattern: 'pylint.log')]
