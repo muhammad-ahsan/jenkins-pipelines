@@ -71,7 +71,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t dockerhubusername/sample-pyproject:$BUILD_NUMBER .'
+                sh '/usr/local/bin/docker build -t dockerhubusername/sample-pyproject:$BUILD_NUMBER .'
                 echo 'Build Image Completed'
             }
         }
