@@ -66,10 +66,4 @@ pipeline {
             }  
         }
     }
-    post{
-        always {
-            echo 'Post Pipeline Cleanup Success ....'
-          // sh 'docker logout'
-        }
-    }
 }
