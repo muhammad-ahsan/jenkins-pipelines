@@ -81,7 +81,7 @@ pipeline {
         }
         stage('Push Docker to Registry') {
             steps {
-                sh '/usr/local/bin/docker docker push mahsan/sample-pyproject:build-$BUILD_NUMBER'
+                sh '/usr/local/bin/docker push mahsan/sample-pyproject:build-$BUILD_NUMBER'
                 echo 'Docker image pushed to docker registry'
             }
         }
