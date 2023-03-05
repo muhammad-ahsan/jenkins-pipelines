@@ -2,10 +2,13 @@ pipeline {
     agent any
 
     stages {
-        stage('Welcome Message') {
+        stage('System configuration') {
             steps {
                 echo 'CI/CD Pipeline is triggered'
+                // Check OS details of Jenkins Server
                 sh 'uname -mrs'
+                // Check docker integration with Jenkins
+                sh 'docker --version'
             }
         }
         stage("Checkout Code") {
