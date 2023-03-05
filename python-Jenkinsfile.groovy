@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        registry = "m/repository_name"
+        registryCredential = 'dockerhub'
+    }
     stages {
         stage('System configuration') {
             steps {
@@ -71,14 +75,14 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh '/usr/local/bin/docker build -t dockerhubusername/sample-pyproject:build-$BUILD_NUMBER .'
-                echo 'Build Image Completed'
+                sh '/usr/local/bin/docker build -t mahsan/sample-pyproject:build-$BUILD_NUMBER .'
+                echo 'Docker image build '
             }
         }
         stage('Push Docker to Registry') {
             steps {
-                sh '/usr/local/bin/docker build -t dockerhubusername/sample-pyproject:build-$BUILD_NUMBER .'
-                echo 'Build Image Completed'
+                sh '/usr/local/bin/docker docker push mahsan/sample-pyproject:build-$BUILD_NUMBER'
+                echo 'Docker image pushed to docker registry'
             }
         }
     }
