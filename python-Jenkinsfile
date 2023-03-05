@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     environment {
-        registry = "m/repository_name"
-        registryCredential = 'dockerhub'
+        REGISTRY = 'mahsan/sample-pyproject'
     }
     stages {
         stage('System configuration') {
@@ -75,13 +74,13 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh '/usr/local/bin/docker build -t mahsan/sample-pyproject:build-$BUILD_NUMBER .'
+                sh '/usr/local/bin/docker build -t ${REGISTRY}:build-$BUILD_NUMBER .'
                 echo 'Docker image build '
             }
         }
         stage('Push Docker to Registry') {
             steps {
-                sh '/usr/local/bin/docker push mahsan/sample-pyproject:build-$BUILD_NUMBER'
+                sh '/usr/local/bin/docker push ${REGISTRY}:build-$BUILD_NUMBER'
                 echo 'Docker image pushed to docker registry'
             }
         }
@@ -89,7 +88,7 @@ pipeline {
     post {
         always {
             echo 'Post stages pipeline cleanup'
-            // Logout from Docker Registry
+            // Any cleanup code if required
         }
    }
 }
