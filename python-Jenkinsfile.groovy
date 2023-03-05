@@ -20,12 +20,12 @@ pipeline {
         stage('Installing packages') {
             steps {
                 script {
-                    sh 'python3 -m pip install virtualenv'
-                    sh 'python3 -m virtualenv .venv'
-                    sh 'source .venv/bin/activate'
-                    sh 'whereis python3'
+                    // sh 'python3 -m pip install --user virtualenv'
+                    // sh 'python3 -m virtualenv .venv'
+                    // sh 'source .venv/bin/activate'
+                    // sh 'whereis python3'
                     sh 'python3 --version'
-                    echo 'Installing packages in newly created python environment'
+                    // echo 'Installing packages in newly created python environment'
                     sh 'python3 -m pip install --upgrade pip'
                     sh 'python3 -m pip install --user pylint pytest pytest-cov'
                     sh 'python3 -m pip install -r requirements.txt'
