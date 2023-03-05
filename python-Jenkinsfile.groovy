@@ -7,8 +7,10 @@ pipeline {
                 echo 'CI/CD Pipeline is triggered'
                 // Check OS details of Jenkins Server
                 sh 'uname -mrs'
+                // Work-around alias for docker (Not to be used on production)
+                sh 'alias docker="/usr/local/bin/docker"'
                 // Check docker integration with Jenkins
-                sh '/usr/local/bin/docker --version'
+                sh 'docker --version'
             }
         }
         stage("Checkout Code") {
@@ -71,7 +73,13 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh '/usr/local/bin/docker build -t dockerhubusername/sample-pyproject:$BUILD_NUMBER .'
+                sh '/usr/local/bin/docker build -t dockerhubusername/sample-pyproject:build-$BUILD_NUMBER .'
+                echo 'Build Image Completed'
+            }
+        }
+        stage('Push Docker to Registry') {
+            steps {
+                sh '/usr/local/bin/docker build -t dockerhubusername/sample-pyproject:build-$BUILD_NUMBER .'
                 echo 'Build Image Completed'
             }
         }
@@ -79,6 +87,7 @@ pipeline {
     post {
         always {
             echo 'Post stages pipeline cleanup'
+            // Logout from Docker Registry
         }
    }
 }
