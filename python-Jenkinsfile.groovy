@@ -41,7 +41,7 @@ pipeline {
                         unstableTotalHigh: 100,
                         enableForFailure: true, 
                         aggregatingResults: true,
-                        tool: [pyLint(pattern: 'pylint.log'),reportEncoding: 'UTF-8']
+                        tool: pyLint(pattern: 'pylint.log')
                 )
                 echo "Generating Report - Linting Success"
             }
