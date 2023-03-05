@@ -45,12 +45,11 @@ pipeline {
                 )
                 echo "Generating Report - Linting Success"
             }
-            post {
+           post {
                 failure {
                     error('Abort because of pylint warnings')
                 }
-            }
-
+           }
         }
         stage('Code Testing'){
            steps {
@@ -63,9 +62,14 @@ pipeline {
                     reportFiles: 'index.html',
                     reportName: 'Test Report',
                     reportTitles: ''])  
-                   
-                echo "Testing Success"   
-                }  
+                }
             }  
         }
+    }
+    post{
+        always {
+            echo 'Post Pipeline Cleanup Success ....'
+          // sh 'docker logout'
+        }
+    }
 }
