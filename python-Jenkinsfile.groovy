@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
 
     stages {
         stage('Welcome Message') {
@@ -35,11 +35,11 @@ pipeline {
            steps {
                 sh 'whereis python3'
                 sh 'python3 -m pylint --output-format=parseable $(git ls-files "*.py") --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" || cat pylint.log || echo "pylint exited with status = $?"'
-                
+
                 // Warnings Next Generation Plugin
                 recordIssues(
                         unstableTotalHigh: 100,
-                        enabledForFailure: true, 
+                        enabledForFailure: true,
                         aggregatingResults: true,
                         tool: pyLint(pattern: 'pylint.log')
                 )
@@ -61,9 +61,10 @@ pipeline {
                     reportDir: 'htmlcov',
                     reportFiles: 'index.html',
                     reportName: 'Test Report',
-                    reportTitles: ''])  
-                }
-            }  
+                    reportTitles: '']
+                )
+            }
         }
     }
 }
+
