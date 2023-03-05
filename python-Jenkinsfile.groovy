@@ -21,6 +21,10 @@ pipeline {
             steps {
                 script {
                     sh 'python3 --version'
+                    sh 'python3 -m venv .'
+                    sh 'ls -all'
+                    sh 'source venv/bin/activate'
+                    sh 'whereis python3'
                     sh 'python3 -m pip install --upgrade pip'
                     sh 'python3 -m pip install --user pylint pytest pytest-cov'
                     sh 'python3 -m pip install -r requirements.txt'
