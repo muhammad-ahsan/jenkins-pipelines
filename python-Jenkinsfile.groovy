@@ -65,6 +65,13 @@ pipeline {
                 )
             }
         }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'sudo docker build -t dockerhubusername/sample-pyproject:$BUILD_NUMBER .'
+                echo 'Build Image Completed'
+            }
+        }
     }
     post {
         always {
