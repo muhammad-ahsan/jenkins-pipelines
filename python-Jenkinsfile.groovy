@@ -8,7 +8,7 @@ pipeline {
                 // Check OS details of Jenkins Server
                 sh 'uname -mrs'
                 // Check docker integration with Jenkins
-                sh 'docker --version'
+                docker --version
             }
         }
         stage("Checkout Code") {
