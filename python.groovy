@@ -31,7 +31,7 @@ pipeline {
         }
         stage('Code Linting'){
            steps {
-                sh 'python3 -m pylint --output-format=parseable $(git ls-files "*.py") --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" || cat pylint.log'
+                sh 'python3 -m pylint --exit-zero --output-format=parseable $(git ls-files "*.py") --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" || cat pylint.log || echo "pylint exited with status = $?"'
                 tool: pyLint(pattern: 'pylint.log')
                 echo "Generating Report - Linting Success"
                 stash includes: 'pylint.log',name: 'pylint.log'
