@@ -1,5 +1,5 @@
 pipeline {
-    agent { dockerfile true }
+    agent none
 
     stages {
         stage('Welcome Message') {
