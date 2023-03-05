@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     sh 'python3 -m pip install virtualenv'
-                    sh 'python3 -m virtualenv --python=python3.8 .venv'
+                    sh 'python3 -m virtualenv .venv'
                     sh 'source .venv/bin/activate'
                     sh 'whereis python3'
                     sh 'python3 --version'
