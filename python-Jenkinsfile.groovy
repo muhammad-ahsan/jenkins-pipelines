@@ -22,7 +22,7 @@ pipeline {
                 script {
                     sh 'python3 --version'
                     sh 'python3 -m pip install virtualenv'
-                    sh 'python3 -m virtualenv -p ˙which pyhton3.9˙ .venv'
+                    sh 'python3 -m virtualenv -p "which pyhton3.9" .venv'
                     sh 'source .venv/bin/activate'
                     sh 'whereis python3'
                     sh 'python3 -m pip install --upgrade pip'
