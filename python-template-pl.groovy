@@ -22,37 +22,29 @@ pipeline {
                 script {
                     sh 'python3 --version'
                     sh 'python3 -m pip install --upgrade pip'
-                    sh 'python3 -m pip install --user pylint'
-                    sh 'python3 -m pip install --user pytest'
-                    sh 'python3 -m pip install --user pytest-cov'
+                    sh 'python3 -m pip install --user pylint pytest pytest-cov'
                     sh 'python3 -m pip install -r requirements.txt'
                 }
             }
         }
         stage('Code Linting'){
            steps {
-                sh 'python3 -m pylint --exit-zero --output-format=parseable $(git ls-files "*.py") --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" || cat pylint.log || echo "pylint exited with status = $?"'
-                tool: pyLint(pattern: 'pylint.log')
+                sh 'python3 -m pylint --output-format=parseable $(git ls-files "*.py") --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" || cat pylint.log || echo "pylint exited with status = $?"'
+                recordIssues(
+                        tool: pyLint(pattern: 'pylint.log'),
+                        unstableTotalHigh: 100,
+                )
                 echo "Generating Report - Linting Success"
-                stash includes: 'pylint.log',name: 'pylint.log'
-            }
-        }
-        stage('Analyze Linting Results') {
-            steps {
-                unstash 'pylint.log'
-                recordIssues healthy: 1, minimumSeverity: 'NORMAL', unhealthy: 9, qualityGates: [[threshold: 1, type: 'TOTAL_NORMAL', unstable: true], [threshold: 1, type: 'TOTAL_HIGH', unstable: false], [threshold: 1, type: 'TOTAL_ERROR', unstable: false]], tools: [pyLint(pattern: 'pylint.log')]
             }
             post {
                 failure {
                     error('Abort because of pylint warnings')
                 }
             }
+
         }
-        
         stage('Code Testing'){
            steps {
-                sh 'python3 -m pytest --version'
-                sh 'python3 -m coverage --version'
                 sh 'python3 -m pytest --cov ./ --cov-report html --verbose'
                 publishHTML(target:
                     [allowMissing: false,
