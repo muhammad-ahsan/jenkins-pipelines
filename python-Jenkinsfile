@@ -26,6 +26,7 @@ pipeline {
         stage('Installing packages') {
             steps {
                 script {
+                    sh 'python3 -m pip install --upgrade pip'
                     sh 'python3 -m pip install --user virtualenv'
                     sh 'python3 -m virtualenv .venv'
                     sh 'source .venv/bin/activate'
