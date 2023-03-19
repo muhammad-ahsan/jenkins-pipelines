@@ -12,6 +12,7 @@ pipeline {
                     uname -mrs
                     docker --version
                     python3 --version
+                    pip3 --version
                    
                 '''
             }
@@ -28,8 +29,8 @@ pipeline {
         stage('Installing packages') {
             steps {
                 script {
-                    sh 'python3 -m virtualenv .venv'
-                    sh 'source .venv/bin/activate'
+                    sh 'python3 -m venv env'
+                    sh 'source env/bin/activate'
                     echo 'Installing packages in newly created python environment'
                     sh 'python3 -m pip install --upgrade pip'
                     sh 'python3 -m pip install --user pylint pytest pytest-cov'
