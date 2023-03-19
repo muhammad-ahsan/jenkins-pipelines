@@ -32,7 +32,7 @@ pipeline {
                         python3 -m venv env
                         pwd
                         ls -ltra
-                        source env/bin/activate
+                        source ../workspace/env/bin/activate
                         echo 'Installing packages in newly created python environment'
                         python3 -m pip install --upgrade pip
                         python3 -m pip install --user pylint pytest pytest-cov
