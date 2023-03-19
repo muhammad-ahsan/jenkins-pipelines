@@ -10,6 +10,8 @@ pipeline {
                 echo 'CI/CD Pipeline is triggered'
                 sh 'uname -mrs'
                 sh 'docker --version'
+                sh 'python3 --version'
+                sh 'apt install python-pip'
             }
         }
         stage("Checkout Code") {
@@ -24,8 +26,6 @@ pipeline {
         stage('Installing packages') {
             steps {
                 script {
-                    sh 'python3 --version'
-                    sh 'sudo apt-get install python-pip'
                     sh 'python3 -m pip install --upgrade pip'
                     sh 'python3 -m virtualenv .venv'
                     sh 'source .venv/bin/activate'
