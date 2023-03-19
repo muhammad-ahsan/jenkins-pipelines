@@ -8,10 +8,12 @@ pipeline {
         stage('System configuration') {
             steps {
                 echo 'CI/CD Pipeline is triggered'
-                sh 'uname -mrs'
-                sh 'docker --version'
-                sh 'python3 --version'
-                sh 'apt install python-pip'
+                sh '''
+                    uname -mrs
+                    docker --version
+                    python3 --version
+                   
+                '''
             }
         }
         stage("Checkout Code") {
