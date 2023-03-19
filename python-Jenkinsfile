@@ -35,6 +35,7 @@ pipeline {
                         python3 -m pip install --upgrade pip
                         python3 -m pip install pylint pytest pytest-cov
                         python3 -m pip install -r requirements.txt
+                        whereis python3
                     '''
                 }
             }
