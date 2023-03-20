@@ -27,34 +27,38 @@ pipeline {
         }
         stage('Installing packages') {
             steps {
-                sh '''
-                    python3 -m venv env
-                    source env/bin/activate
-                    echo 'Installing packages in newly created python environment'
-                    python3 -m pip install --upgrade pip
-                    python3 -m pip install pylint pytest pytest-cov
-                    python3 -m pip install -r requirements.txt
-                    python3 -m pip list
-                    whereis python3
-                '''
-                
+                script {
+                        sh '''
+                            python3 -m venv env
+                            source env/bin/activate
+                            echo 'Installing packages in newly created python environment'
+                            python3 -m pip install --upgrade pip
+                            python3 -m pip install pylint pytest pytest-cov
+                            python3 -m pip install -r requirements.txt
+                            python3 -m pip list
+                            whereis python3
+                        '''
+                }
             }
         }
         stage('Code Linting'){
            steps {
-                sh 'whereis python3'
-                sh 'python3 -m pip list'
-                sh 'python3 -m pylint --output-format=parseable $(git ls-files "*.py") --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" || cat pylint.log || echo "pylint exited with status = $?"'
+               script {
+                    sh 'whereis python3'
+                    sh 'python3 -m pip list'
+                    sh 'python3 -m pylint --output-format=parseable $(git ls-files "*.py") --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" || cat pylint.log || echo "pylint exited with status = $?"'
 
-                // Warnings Next Generation Plugin
-                recordIssues(
-                        unstableTotalHigh: 100,
-                        enabledForFailure: true,
-                        aggregatingResults: true,
-                        tool: pyLint(pattern: 'pylint.log')
-                )
-                echo "Generating Report - Linting Success"
+                    // Warnings Next Generation Plugin
+                    recordIssues(
+                            unstableTotalHigh: 100,
+                            enabledForFailure: true,
+                            aggregatingResults: true,
+                            tool: pyLint(pattern: 'pylint.log')
+                    )
+                    echo "Generating Report - Linting Success"
+                }
             }
+            
            post {
                 failure {
                     error('Abort because of pylint warnings')
